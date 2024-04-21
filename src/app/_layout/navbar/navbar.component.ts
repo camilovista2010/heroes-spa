@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { SearchHeoesComponent } from 'src/app/dashboard/components/search-heoes/search-heoes.component';
+import { SearchHeroesComponent } from 'src/app/dashboard/components/search-heroes/search-heroes.component';
 
 @Component({
   selector: 'app-navbar',
@@ -38,7 +38,7 @@ export class NavbarComponent {
 
 
   searchHeroes() {
-    const dialogRef = this.dialog.open(SearchHeoesComponent, {
+    const dialogRef = this.dialog.open(SearchHeroesComponent, {
       width : '60%',
       height: '60%'
     }); 

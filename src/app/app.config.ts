@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { PreloadAllModules, provideRouter, withPreloading, withViewTransitions } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -8,12 +8,17 @@ import { MarvelApiInterceptor } from '@shared/interceptor/marvel-api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes), 
+    provideRouter(
+      routes, 
+      withViewTransitions(),
+      withPreloading(PreloadAllModules)
+    ),
     importProvidersFrom(HttpClientModule),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MarvelApiInterceptor,
       multi: true
     },
-    provideAnimationsAsync()]
+    provideAnimationsAsync()
+  ]
 };

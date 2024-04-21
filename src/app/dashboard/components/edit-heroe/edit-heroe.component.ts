@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Character } from '@shared/interfaces/character';
 import { AlertService } from '@shared/services/alert.service';
 import { MarvelService } from '@shared/services/marvel.service';
 import { SharedModule } from '@shared/shared.module';
+import { lastValueFrom } from 'rxjs';
 import { NavbarComponent } from 'src/app/_layout/navbar/navbar.component';
 
 
@@ -14,7 +15,7 @@ import { NavbarComponent } from 'src/app/_layout/navbar/navbar.component';
   templateUrl: './edit-heroe.component.html',
   styleUrl: './edit-heroe.component.scss',
 })
-export class EditHeroeComponent implements OnInit {
+export class EditHeroeComponent {
 
   idHeroes = 0;
   prospCharacters!: Character; 
@@ -26,19 +27,16 @@ export class EditHeroeComponent implements OnInit {
     private router: Router
   ) {
     this.idHeroes = Number(this.activatedRoute.snapshot.params['id']);
-  }
 
-  ngOnInit() {
     this.marvelService.getCharacterLocal()
     .filter(item => item.id === this.idHeroes).forEach(response => {
       this.prospCharacters = response;
     });
-  }
+  } 
 
-  onReceiveData(event: Character) {
-    this.marvelService.updateCharacter(event).subscribe(response => {
-      this.router.navigate(['/']);
-    })
+  async onReceiveData(event: Character) {
+    await lastValueFrom(this.marvelService.updateCharacter(event));
+    await this.router.navigateByUrl('/');
   }
 
 

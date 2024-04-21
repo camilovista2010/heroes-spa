@@ -1,0 +1,24 @@
+<mat-toolbar>
+  <mat-icon>search</mat-icon>
+  <input
+    matInput
+    placeholder="Buscar héroes"
+    [(ngModel)]="searchText"
+    (input)="filterHeroes()"
+  />
+  <span class="spacer"></span>
+  <mat-icon (click)="onCloseClick()">close</mat-icon>
+</mat-toolbar>
+<mat-nav-list>
+  @for (item of filteredHeroes; track item.id) {
+  <a mat-list-item (click)="navigateToEdit(item.id)">
+    <mat-icon matListItemAvatar>
+      <img [src]="item.thumbnail.path" alt="{{ item.name }}" />
+    </mat-icon>
+    <div matListItemTitle>{{ item.name }}</div>
+    <div matListItemLine>{{ item.description }}</div>
+  </a>
+  } @empty {
+  <p>Digite para consultar resultados.</p>
+  }
+</mat-nav-list>
