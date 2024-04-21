@@ -3,6 +3,7 @@
 @if (prospCharacters) {
     <app-character-form 
     [propsCharacter]="prospCharacters"
+    (onReceiveData)="onReceiveData($event)"
     ></app-character-form>
 }
 

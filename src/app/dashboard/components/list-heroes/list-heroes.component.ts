@@ -5,66 +5,68 @@ import { Character } from '@shared/interfaces/character';
 import { AlertService } from '@shared/services/alert.service';
 import { MarvelService } from '@shared/services/marvel.service';
 import { SharedModule } from '@shared/shared.module';
-import { map } from 'rxjs';
+import { map } from 'rxjs'; 
 
 @Component({
   selector: 'app-list-heroes',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './list-heroes.component.html',
-  styleUrl: './list-heroes.component.scss'
+  styleUrls: ['./list-heroes.component.scss']
 })
-export class ListHeroesComponent implements OnInit  {
-
+export class ListHeroesComponent implements OnInit {
   characters: Character[] = [];
 
   constructor(
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     private marvelService: MarvelService,
     private alertService: AlertService
-  ) {
+  ) { }
 
+  ngOnInit(): void {
+    this.loadCharacters();
   }
 
-  ngOnInit() {
-    this.marvelService.getCharacters()
-    .pipe(
-      map(response => {
-        for (const item of response.data.results) {
-          item.thumbnail.path += `.${item.thumbnail.extension}`;
-        }
-        return response;
-      })
-    )
-    .subscribe(response => {
-      this.characters = response.data.results;
-      this.marvelService.dataStore = response.data.results;
+  private loadCharacters(): void {
+    this.marvelService.getCharacterLocal().length > 0 ? this.characters = this.marvelService.getCharacterLocal() : this.fetchCharacters();
+  }
+
+  private fetchCharacters(): void {
+    this.marvelService.getCharacters().pipe(
+      map(response => this.formatCharacterThumbnails(response))
+    ).subscribe({
+      next: response => this.handleCharacterResponse(response),
+      error: err => this.alertService.showError(err)
     });
   }
 
-  addHero() {
-    const dialogRef = this.dialog.open(CharacterFormComponent, {
-      data: {},
+  private formatCharacterThumbnails(response: any): any {
+    response.data.results.forEach((item: any) => {
+      item.thumbnail.path += `.${item.thumbnail.extension}`;
     });
+    return response;
+  }
 
-    dialogRef.componentInstance.onReceiveData.subscribe(response => {
+  private handleCharacterResponse(response: any): void {
+    this.characters = response.data.results;
+    this.marvelService.dataStore = this.characters;
+  }
+
+  addHero(): void {
+    const dialogRef = this.dialog.open(CharacterFormComponent, { data: {} });
+    this.handleDialogClose(dialogRef);
+  }
+
+  private handleDialogClose(dialogRef: any): void {
+    dialogRef.componentInstance.onReceiveData.subscribe((response : Character) => {
       this.marvelService.addCharacter(response).subscribe({
-        next : (item ) => {
-          this.characters =  this.marvelService.getCharacterLocal();
+        next: () => {
+          this.characters = this.marvelService.getCharacterLocal();
           this.alertService.showSuccess('Heroe agregado.');
         },
-        error: (err) => {
-          this.alertService.showError(err);
-        },
-        complete: () => {
-          dialogRef.close();
-        }
-      })
-      console.log(response)
-      
-    }); 
+        error: err => this.alertService.showError(err),
+        complete: () => dialogRef.close()
+      });
+    });
   }
-    
-
-
 }

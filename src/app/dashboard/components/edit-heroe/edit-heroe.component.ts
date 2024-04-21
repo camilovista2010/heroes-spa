@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Character } from '@shared/interfaces/character';
 import { AlertService } from '@shared/services/alert.service';
 import { MarvelService } from '@shared/services/marvel.service';
@@ -17,12 +17,13 @@ import { NavbarComponent } from 'src/app/_layout/navbar/navbar.component';
 export class EditHeroeComponent implements OnInit {
 
   idHeroes = 0;
-  prospCharacters!: Character;
+  prospCharacters!: Character; 
 
   constructor(
     private marvelService: MarvelService,
     private activatedRoute: ActivatedRoute,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {
     this.idHeroes = Number(this.activatedRoute.snapshot.params['id']);
   }
@@ -32,6 +33,12 @@ export class EditHeroeComponent implements OnInit {
     .filter(item => item.id === this.idHeroes).forEach(response => {
       this.prospCharacters = response;
     });
+  }
+
+  onReceiveData(event: Character) {
+    this.marvelService.updateCharacter(event).subscribe(response => {
+      this.router.navigate(['/']);
+    })
   }
 
 

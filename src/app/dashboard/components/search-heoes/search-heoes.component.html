@@ -1,1 +1,18 @@
-<p>search-heoes works!</p>
+<mat-toolbar>
+    <mat-icon>search</mat-icon>
+    <input matInput placeholder="Buscar héroes" [(ngModel)]="searchText" (input)="filterHeroes()">
+    <span class="spacer"></span>
+    <mat-icon (click)="onCloseClick()">close</mat-icon> 
+  </mat-toolbar>
+  <mat-list>
+    @for (item of filteredHeroes; track item.id) {
+        <mat-list-item>
+            <img matListAvatar [src]="item.thumbnail.path" alt="{{item.name}}">
+            <h4 matLine>{{ item.name }}</h4>
+            <p matLine>{{ item.description }}</p>
+          </mat-list-item>
+    } @empty {
+        <p> Digite para consultar resultados.</p>
+    }
+    
+  </mat-list>

@@ -10,84 +10,79 @@ import { AlertService } from '@shared/services/alert.service';
   styleUrl: './character-form.component.scss'
 })
 export class CharacterFormComponent implements OnInit  {
-
-  characterForm!: FormGroup;
+ 
 
   onReceiveData = output<Character>();
   propsCharacter = input<Character | undefined>();
 
-  private fileInput : File | undefined;
-  
 
-  constructor( 
-    private alertService: AlertService
-  ) {
+  characterForm!: FormGroup;
+  private fileInput?: File;
+
+  constructor(private alertService: AlertService) { }
+
+  ngOnInit(): void {
+    this.initializeForm();
   }
 
-  ngOnInit() { 
+  private initializeForm(): void {
     this.characterForm = new FormGroup({
-      name: new FormControl(this.propsCharacter()?.name ?? '' , Validators.required),
+      name: new FormControl(this.propsCharacter()?.name ?? '', Validators.required),
       description: new FormControl(this.propsCharacter()?.description ?? '', Validators.required),
       thumbnail: new FormGroup({
-        path: new FormControl(''),
-        extension: new FormControl('')
+        path: new FormControl(this.propsCharacter()?.thumbnail?.path ?? ''),
+        extension: new FormControl(this.propsCharacter()?.thumbnail?.extension ?? '')
       })
-    })
-
+    });
   }
 
-
-  onSubmit() {
+  onSubmit(): void {
     if (this.characterForm.valid) {
-      if (this.propsCharacter()) {
-        const fileForUpload = this.handleFileUpload();
-        if (fileForUpload.path !== '') {
-          this.characterForm.get('thumbnail')?.setValue({
-            path: fileForUpload.path,
-            extension: fileForUpload.extension
-          });
-        } 
-      }
-      this.onReceiveData.emit(this.characterForm.value)
-    }else { 
-      const textError = Object.keys(this.characterForm.controls ?? {}).map(error => {
-        const errorKeys = this.characterForm.controls[error].errors; 
-        if (errorKeys) { 
-          return `Campo ${error} error: ${Object.keys(errorKeys).join('\n')} `;
-        }else {
-          return '';
-        } 
-      }).join('\n')
-
-      this.alertService.showError(textError);
+      const formValue = this.characterForm.value as Character;
+      this.handleFileUpload().then(thumbnail => {
+        if (thumbnail.path) {
+          formValue.thumbnail = thumbnail;
+        }
+        this.emitCharacterData(formValue);
+      });
+    } else {
+      this.displayFormErrors();
     }
   }
 
-  handleFileUpload() {
-
-    const thumbnail = {
-      extension: '',
-      path: ''
-    };
-
-    if (this.fileInput) { 
-      const blobUrl = URL.createObjectURL(this.fileInput); 
-      const extension = this.fileInput.name.split('.').pop(); 
-      thumbnail.extension = extension ?? '';
-      thumbnail.path = blobUrl;
+  private async handleFileUpload() {
+    if (this.fileInput) {
+      const blobUrl = URL.createObjectURL(this.fileInput);
+      const extension = this.fileInput.name.split('.').pop() ?? '';
+      return { path: blobUrl, extension };
     }
-    return thumbnail;
+    return { path: '', extension: '' };
   }
 
-
-  GetFileOnLoad(event: any) {
-    var file = event.target.files[0];
-    this.fileInput = file;
-    var element = document.getElementById("fakeFileInput") as HTMLInputElement | null;
-    if(element != null) {
-      element.value = file?.name;
+  private emitCharacterData(character: Character): void {
+    if (this.propsCharacter()?.id) {
+      character.id = this.propsCharacter()?.id ?? -1;
     }
+    this.onReceiveData.emit(character);
   }
-  
+
+  private displayFormErrors(): void {
+    const errors = Object.keys(this.characterForm.controls)
+      .map(field => {
+        const control = this.characterForm.get(field);
+        if (control?.invalid) {
+          return `Campo ${field} error: ${Object.keys(control.errors ?? {}).join(', ')}`;
+        }
+        return '';
+      })
+      .filter(error => error.length > 0)
+      .join('\n');
+
+    this.alertService.showError(errors);
+  }
+
+  handleFileInput(event: any): void {
+    this.fileInput = event.target.files[0];
+  }
   
 }

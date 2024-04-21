@@ -3,6 +3,8 @@ import { SharedModule } from '@shared/shared.module';
 import { Location } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { SearchHeoesComponent } from 'src/app/dashboard/components/search-heoes/search-heoes.component';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +20,8 @@ export class NavbarComponent {
 
   constructor(
     private location: Location,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
   ){ 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -31,6 +34,14 @@ export class NavbarComponent {
 
   goBack(): void {
     this.location.back();
+  }
+
+
+  searchHeroes() {
+    const dialogRef = this.dialog.open(SearchHeoesComponent, {
+      width : '60%',
+      height: '60%'
+    }); 
   }
  
 }

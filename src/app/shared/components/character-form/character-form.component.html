@@ -15,7 +15,7 @@
     <mat-form-field > 
       <mat-label>Avatar</mat-label>
       <input matInput readonly type="text" id="fakeFileInput" (click)="hiddenInput.click()" >
-      <input hidden type="file" accept=".jpeg,.jpg,.png" #hiddenInput (change)="GetFileOnLoad($event)" [disabled]="propsCharacter !== undefined">
+      <input hidden type="file" accept=".jpeg,.jpg,.png" #hiddenInput (change)="handleFileInput($event)" [disabled]="propsCharacter() !== undefined">
       <mat-icon matSuffix>folder_open</mat-icon>
    </mat-form-field>
   
