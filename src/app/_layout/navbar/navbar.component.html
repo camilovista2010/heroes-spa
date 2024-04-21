@@ -1,0 +1,11 @@
+<mat-toolbar>
+    @if (hasHistory) {
+      <button mat-icon-button class="example-icon"  (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    }
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button class="example-icon" >
+      <mat-icon>search</mat-icon>
+    </button>
+</mat-toolbar>

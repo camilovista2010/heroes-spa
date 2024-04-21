@@ -1,0 +1,38 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Character } from '@shared/interfaces/character';
+import { AlertService } from '@shared/services/alert.service';
+import { MarvelService } from '@shared/services/marvel.service';
+import { SharedModule } from '@shared/shared.module';
+import { NavbarComponent } from 'src/app/_layout/navbar/navbar.component';
+
+
+@Component({
+  selector: 'app-edit-heroe',
+  standalone: true,
+  imports: [SharedModule , NavbarComponent],
+  templateUrl: './edit-heroe.component.html',
+  styleUrl: './edit-heroe.component.scss',
+})
+export class EditHeroeComponent implements OnInit {
+
+  idHeroes = 0;
+  prospCharacters!: Character;
+
+  constructor(
+    private marvelService: MarvelService,
+    private activatedRoute: ActivatedRoute,
+    private alertService: AlertService
+  ) {
+    this.idHeroes = Number(this.activatedRoute.snapshot.params['id']);
+  }
+
+  ngOnInit() {
+    this.marvelService.getCharacterLocal()
+    .filter(item => item.id === this.idHeroes).forEach(response => {
+      this.prospCharacters = response;
+    });
+  }
+
+
+}

@@ -1,0 +1,15 @@
+<div>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <button mat-stroked-button color="primary" (click)="addHero()">Añadir Héroe</button>
+    </div>
+    <div>
+        @for (item of characters; track item.id) {
+            <app-card 
+              [character]="item"
+            />
+            <br>
+        } @empty {
+            <p> No se encuentran Heoroes</p>
+        }
+    </div> 
+</div>
