@@ -1,7 +1,7 @@
 
 <mat-card>
     <mat-card-content>
-        <p> {{character().name}} </p>
+        <p> {{character().name | capitalizeFirst}} </p>
         <img [src]="character().thumbnail.path" style="width: 400px;">
         <a class="button"
             routerLink="/dashboard/edit-heroe/{{character().id}}"

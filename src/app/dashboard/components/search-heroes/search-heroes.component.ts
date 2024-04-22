@@ -5,13 +5,14 @@ import { Router, RouterModule } from '@angular/router';
 import { Character } from '@shared/interfaces/character';
 import { MarvelService } from '@shared/services/marvel.service';
 import { SharedModule } from '@shared/shared.module';
+import { CapitalizeFirstPipe } from "../../../shared/pipe/capitalize-first.pipe";
 
 @Component({
-  selector: 'app-search-heroes',
-  standalone: true,
-  imports: [SharedModule, FormsModule, RouterModule],
-  templateUrl: './search-heroes.component.html',
-  styleUrl: './search-heroes.component.scss',
+    selector: 'app-search-heroes',
+    standalone: true,
+    templateUrl: './search-heroes.component.html',
+    styleUrl: './search-heroes.component.scss',
+    imports: [SharedModule, FormsModule, RouterModule, CapitalizeFirstPipe]
 })
 export class SearchHeroesComponent implements OnInit {
 
