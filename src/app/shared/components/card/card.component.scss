@@ -1,0 +1,34 @@
+.mat-mdc-card.mdc-card {
+    max-width: 100%;
+    border-radius: 20px;
+    height: 56vh;
+    background-color: transparent;
+    @media  screen and (max-width: 1300px) {
+        height: 54vh;
+    }
+    @media  screen and (max-width: 960px) {
+        height: 52vh;
+    }
+    @media  screen and (max-width: 720px) {
+        height: 50vh;
+    }
+    @media  screen and (max-width: 600px) {
+        height: 46vh;
+    }
+    @media  screen and (max-width: 450px) {
+        height: 44vh;
+    }
+    .mat-mdc-card-content {
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        img {
+            width: 100% !important;
+            object-fit: cover;
+            height: 100%;
+            border-radius: 20px;
+        }
+    }
+}
+

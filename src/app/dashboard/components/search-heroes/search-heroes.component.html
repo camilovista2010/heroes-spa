@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="toolbar-header">
   <mat-icon>search</mat-icon>
   <input
     matInput
@@ -15,7 +15,7 @@
     <mat-icon matListItemAvatar>
       <img [src]="item.thumbnail.path" alt="{{ item.name }}" />
     </mat-icon>
-    <div matListItemTitle>{{ item.name }}</div>
+    <div matListItemTitle>{{ item.name | capitalizeFirst }}</div>
     <div matListItemLine>{{ item.description }}</div>
   </a>
   } @empty {

@@ -5,19 +5,24 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './modules/material/material.module';
 import { CardComponent } from './components/card/card.component';
 import { CharacterFormComponent } from './components/character-form/character-form.component';
+import { CardSmallComponent } from './components/card-small/card-small.component';
+import { CapitalizeFirstPipe } from "./pipe/capitalize-first.pipe";
+
 
 @NgModule({
-  declarations: [CardComponent, CharacterFormComponent],
+  declarations: [CardComponent, CharacterFormComponent,CardSmallComponent],
   imports: [
     CommonModule,
     MaterialModule,
     RouterModule,
     ReactiveFormsModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    CapitalizeFirstPipe
   ],
   exports: [
     MaterialModule,
     CardComponent,
+    CardSmallComponent,
     CharacterFormComponent,
     ReactiveFormsModule
   ],

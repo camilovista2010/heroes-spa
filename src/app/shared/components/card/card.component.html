@@ -1,14 +1,7 @@
 
 <mat-card>
     <mat-card-content>
-        <p> {{character().name}} </p>
-        <img [src]="character().thumbnail.path" style="width: 400px;">
-        <a class="button"
-            routerLink="/dashboard/edit-heroe/{{character().id}}"
-            routerLinkActive="activebutton"
-            ariaCurrentWhenActive="page">
-            Editar
-        </a> 
+        <img [src]="character().thumbnail.path"> 
     </mat-card-content>
 </mat-card>
   

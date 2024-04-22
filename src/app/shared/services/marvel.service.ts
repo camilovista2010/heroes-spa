@@ -42,17 +42,17 @@ export class MarvelService {
 
   addCharacter(character: Character): Observable<Character> {
     return of(character).pipe(
-      delay(1000), 
+      delay(500), 
       tap(newCharacter => {
         newCharacter.id = this.dataStore.length + 1;
-        this.dataStore = [newCharacter, ...this.dataStore ];
+        this.dataStore = [ ...this.dataStore, newCharacter];
       })
     );
   }
 
   updateCharacter(updatedCharacter: Character): Observable<Character> {
     return of(updatedCharacter).pipe(
-      delay(1000), 
+      delay(500), 
       tap(character => {
         const index = this.dataStore.findIndex(item => item.id === character.id);
         if (index !== -1) {
