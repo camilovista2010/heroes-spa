@@ -1,9 +1,14 @@
-<h2 mat-dialog-title>Hola, estos son los datos del super héroe por favor modifica la información.  </h2>
-@if (prospCharacters) {
-    <app-character-form 
-    [propsCharacter]="prospCharacters"
-    (onReceiveData)="onReceiveData($event)"
-    ></app-character-form>
-}
+<div class="form-container">
+
+    <h2 mat-dialog-title>Hola, estos son los datos del super héroe por favor modifica la información.  </h2>
+    @if (prospCharacters) {
+        <app-character-form 
+        [propsCharacter]="prospCharacters"
+        (onReceiveData)="onReceiveData($event)"
+        class="form"
+        style="width: 100%;"
+        ></app-character-form>
+    }
+</div>
 
 

@@ -1,15 +1,27 @@
-<div>
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <button mat-stroked-button color="primary" (click)="addHero()">Añadir Héroe</button>
+
+
+<div class="page-container">
+    <div class="card-slider" >
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button mat-stroked-button color="primary" (click)="addHero()">Añadir Héroe</button>
+        </div>
+        <div class="card-slider-container">
+            <swiper-container effect="cards" grab-cursor="true" perSlideRotate=0 >
+                @for (item of characters ; track item.id) {
+                    <swiper-slide>
+                        <a routerLink="/dashboard/edit-heroe/{{item.id}}">
+                            <app-card 
+                            [character]="item"
+                            />
+                        </a>
+
+                    </swiper-slide>
+                } @empty {
+                    <mat-spinner></mat-spinner>
+                }
+              </swiper-container>
+        </div>
     </div>
-    <div>
-        @for (item of characters; track item.id) {
-            <app-card 
-              [character]="item"
-            />
-            <br>
-        } @empty {
-            <p> No se encuentran Heoroes</p>
-        }
-    </div> 
+    
 </div>
+

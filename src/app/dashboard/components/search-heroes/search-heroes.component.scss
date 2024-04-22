@@ -7,3 +7,46 @@ img {
 .spacer {
   flex: 1 1 auto;
 }
+
+
+
+.mat-toolbar-single-row {
+  padding: 15px;
+}
+
+.mat-mdc-input-element {
+  margin-left: 8px;
+  border-radius: 4px;
+  border: none;
+  padding: 5px 10px;
+}
+
+.mat-mdc-list-base {
+  display: block;
+  flex: 1;
+  background-color: white;
+  padding: 15px;
+}
+
+.mdc-list-item__primary-text {
+  font-weight: bold;
+  color: black;
+}
+
+.mdc-list-item__secondary-text {
+  font-weight: bold;
+  color: rgb(66, 66, 66);
+}
+
+.mat-mdc-list-item.mdc-list-item--with-leading-avatar.mdc-list-item--with-two-lines {
+  border-bottom: 1px solid rgb(66, 66, 66);
+  border-radius: 0;
+  &:hover{
+    .mdc-list-item__primary-text {
+      color: black;
+    }
+    .mdc-list-item__secondary-text {
+      color: rgb(66, 66, 66);
+    }
+  }
+}

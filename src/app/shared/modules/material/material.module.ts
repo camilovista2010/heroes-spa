@@ -12,8 +12,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from '@angular/material/list';
-
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 const componentsMaterial = [
@@ -28,7 +27,8 @@ const componentsMaterial = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatSelectModule,
-  MatListModule
+  MatListModule,
+  MatProgressSpinnerModule
 ]
 
 @NgModule({
