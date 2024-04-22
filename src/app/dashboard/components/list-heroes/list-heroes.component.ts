@@ -49,7 +49,7 @@ export class ListHeroesComponent implements OnInit {
     console.log(this.slidesPerView);
   }
 
-  private loadCharacters(): void {
+  loadCharacters(): void {
     this.marvelService.getCharacterLocal().length > 0 ? this.characters = this.marvelService.getCharacterLocal() : this.fetchCharacters();
   }
 

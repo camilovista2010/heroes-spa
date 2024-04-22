@@ -5,7 +5,7 @@ import { AlertService } from '@shared/services/alert.service';
 import { MarvelService } from '@shared/services/marvel.service';
 import { SharedModule } from '@shared/shared.module';
 import { lastValueFrom } from 'rxjs';
-import { NavbarComponent } from 'src/app/_layout/navbar/navbar.component';
+import { NavbarComponent } from 'src/app/_layout/navbar/navbar.component'; 
 
 
 @Component({
@@ -34,9 +34,9 @@ export class EditHeroeComponent {
     });
   } 
 
-  async onReceiveData(event: Character) {
-    await lastValueFrom(this.marvelService.updateCharacter(event));
-    await this.router.navigateByUrl('/');
+  onReceiveData(event: Character) {
+   this.marvelService.updateCharacter(event);
+   this.router.navigateByUrl('/');
   }
 
 
