@@ -3,22 +3,40 @@
   <input
     matInput
     placeholder="Buscar héroes"
-    [(ngModel)]="searchText"
-    (input)="filterHeroes()"
+    (keyup)="applyFilter($event)"
   />
   <span class="spacer"></span>
   <mat-icon (click)="onCloseClick()">close</mat-icon>
 </mat-toolbar>
-<mat-nav-list>
-  @for (item of filteredHeroes; track item.id) {
-  <a mat-list-item (click)="navigateToEdit(item.id)">
-    <mat-icon matListItemAvatar>
-      <img [src]="item.thumbnail.path" alt="{{ item.name }}" />
-    </mat-icon>
-    <div matListItemTitle>{{ item.name | capitalizeFirst }}</div>
-    <div matListItemLine>{{ item.description }}</div>
-  </a>
-  } @empty {
-  <p>Digite para consultar resultados.</p>
-  }
-</mat-nav-list>
+<div class="mat-table-container">
+  <table mat-table [dataSource]="dataSource" matSort>
+ 
+    <ng-container matColumnDef="avatar">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon matListItemAvatar>
+          <img [src]="element.thumbnail.path" alt="{{ element.name }}" />
+        </mat-icon>
+      </td>
+    </ng-container>
+ 
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name | capitalizeFirst}} </td>
+    </ng-container>
+ 
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container> 
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;" (click)="navigateToEdit(row.id)"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Seleccionar página de heroes">
+  </mat-paginator>
+</div>
+

@@ -45,21 +45,22 @@ export class MarvelService {
       delay(500), 
       tap(newCharacter => {
         newCharacter.id = this.dataStore.length + 1;
-        this.dataStore = [ ...this.dataStore, newCharacter];
+        this.dataStore = [  newCharacter , ...this.dataStore ];
       })
     );
   }
 
   updateCharacter(updatedCharacter: Character): Observable<Character> {
-    return of(updatedCharacter).pipe(
-      delay(500), 
-      tap(character => {
-        const index = this.dataStore.findIndex(item => item.id === character.id);
-        if (index !== -1) {
-          this.dataStore[index] = character;
-        }
-      })
-    );
+    return new Observable(subscriber => {
+      const index = this.dataStore.findIndex(item => item.id === updatedCharacter.id);
+      if (index !== -1) {
+        this.dataStore[index] = updatedCharacter;
+        subscriber.next(updatedCharacter);
+        subscriber.complete();
+      } else {
+        subscriber.error("No se encuentra el elemento heroe");
+      }
+    });
   }
   
 }

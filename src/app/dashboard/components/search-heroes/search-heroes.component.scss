@@ -6,9 +6,7 @@ img {
 
 .spacer {
   flex: 1 1 auto;
-}
-
-
+} 
 
 .mat-toolbar-single-row {
   padding: 15px;
@@ -20,33 +18,41 @@ img {
   border: none;
   padding: 5px 10px;
 }
+ 
 
-.mat-mdc-list-base {
-  display: block;
+.mat-table-container {
+  display: flex;
+  flex-direction: column;
+  height: 80%; 
+}
+
+.mat-table {
+  flex: 1 1 auto;
+  overflow-y: auto; 
+}
+
+table ::ng-deep {
+  min-height: 100%;
+}
+ 
+.mat-header-row, .mat-row {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.mat-cell, .mat-header-cell {
   flex: 1;
-  background-color: white;
-  padding: 15px;
 }
 
-.mdc-list-item__primary-text {
-  font-weight: bold;
-  color: black;
+td, th {
+  width: 45%; 
 }
 
-.mdc-list-item__secondary-text {
-  font-weight: bold;
-  color: rgb(66, 66, 66);
-}
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+} 
 
-.mat-mdc-list-item.mdc-list-item--with-leading-avatar.mdc-list-item--with-two-lines {
-  border-bottom: 1px solid rgb(66, 66, 66);
-  border-radius: 0;
-  &:hover{
-    .mdc-list-item__primary-text {
-      color: black;
-    }
-    .mdc-list-item__secondary-text {
-      color: rgb(66, 66, 66);
-    }
-  }
+th:first-child, td:first-child {
+  width: 10%;
 }

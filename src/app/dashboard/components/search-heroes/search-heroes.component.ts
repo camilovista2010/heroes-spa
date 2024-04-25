@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
@@ -6,6 +6,9 @@ import { Character } from '@shared/interfaces/character';
 import { MarvelService } from '@shared/services/marvel.service';
 import { SharedModule } from '@shared/shared.module';
 import { CapitalizeFirstPipe } from "@shared/pipe/capitalize-first.pipe";
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -15,7 +18,7 @@ import { CapitalizeFirstPipe } from "@shared/pipe/capitalize-first.pipe";
   templateUrl: './search-heroes.component.html',
   styleUrl: './search-heroes.component.scss',
 })
-export class SearchHeroesComponent implements OnInit {
+export class SearchHeroesComponent implements OnInit , AfterViewInit {
 
   constructor(
     public dialogRef: MatDialogRef<SearchHeroesComponent>,
@@ -23,23 +26,37 @@ export class SearchHeroesComponent implements OnInit {
     private router: Router
     ) {}
 
-  heroes: Character[] = [];
-  filteredHeroes: Character[] = [...this.heroes];
-  searchText = '';
+  displayedColumns: string[] = ['avatar', 'name', 'description' ];
+  dataSource = new MatTableDataSource();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  heroes: Character[] = [];  
 
   ngOnInit(): void {
     this.heroes = this.marvelService.getCharacterLocal();
+    this.dataSource.data = [...this.heroes]; 
+  } 
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
-  filterHeroes() {
-    this.filteredHeroes = this.heroes.filter((hero) =>
-      hero.name.toLowerCase().includes(this.searchText.toLowerCase())
-    );
-  }
 
   navigateToEdit(id: number) {
     this.router.navigate([`/dashboard/edit-heroe/${id}`]);
     this.onCloseClick();
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   onCloseClick(): void {

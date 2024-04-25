@@ -49,7 +49,7 @@ export class ListHeroesComponent implements OnInit {
     console.log(this.slidesPerView);
   }
 
-  private loadCharacters(): void {
+  loadCharacters(): void {
     this.marvelService.getCharacterLocal().length > 0 ? this.characters = this.marvelService.getCharacterLocal() : this.fetchCharacters();
   }
 
@@ -75,7 +75,10 @@ export class ListHeroesComponent implements OnInit {
   }
 
   addHero(): void {
-    const dialogRef = this.dialog.open(CharacterFormComponent, { data: {} });
+    const dialogRef = this.dialog.open(CharacterFormComponent, { 
+      width: '500px',
+      data: {} 
+    });
     this.handleDialogClose(dialogRef);
   }
 
