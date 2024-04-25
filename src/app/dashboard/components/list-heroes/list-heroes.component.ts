@@ -75,7 +75,10 @@ export class ListHeroesComponent implements OnInit {
   }
 
   addHero(): void {
-    const dialogRef = this.dialog.open(CharacterFormComponent, { data: {} });
+    const dialogRef = this.dialog.open(CharacterFormComponent, { 
+      width: '500px',
+      data: {} 
+    });
     this.handleDialogClose(dialogRef);
   }
 

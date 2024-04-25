@@ -1,4 +1,9 @@
 <mat-toolbar>
+    @if (hasPageEdit) {
+      <button mat-icon-button  (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    }
     <span class="toolbar-spacer"></span>
     <button mat-icon-button (click)="searchHeroes()" >
       <mat-icon>search</mat-icon>

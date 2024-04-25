@@ -16,6 +16,7 @@ import { SearchHeroesComponent } from 'src/app/dashboard/components/search-heroe
 export class NavbarComponent {
 
   public hasHistory: boolean = false;
+  hasPageEdit = false;
 
 
   constructor(
@@ -28,6 +29,8 @@ export class NavbarComponent {
         if(event.url !== "/dashboard") {
           this.hasHistory = true;
         }
+
+        this.hasPageEdit = event.url.includes('edit-heroe');
       }
     });
   }

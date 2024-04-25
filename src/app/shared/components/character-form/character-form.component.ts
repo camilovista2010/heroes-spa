@@ -39,12 +39,17 @@ export class CharacterFormComponent implements OnInit  {
   onSubmit(): void {
     if (this.characterForm.valid) {
       const formValue = this.characterForm.value as Character;
-      this.handleFileUpload().then(thumbnail => {
-        if (thumbnail.path) {
-          formValue.thumbnail = thumbnail;
-        }
+      if (this.propsCharacter() === undefined) {
+        this.handleFileUpload().then(thumbnail => {
+          if (thumbnail.path) {
+            formValue.thumbnail = thumbnail;
+          }
+          this.emitCharacterData(formValue);
+        });
+      }else {
         this.emitCharacterData(formValue);
-      });
+      }
+     
     } else {
       this.displayFormErrors();
     }

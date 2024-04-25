@@ -34,9 +34,15 @@ export class EditHeroeComponent {
     });
   } 
 
-  onReceiveData(event: Character) {
-   this.marvelService.updateCharacter(event);
-   this.router.navigateByUrl('/');
+  onReceiveData(event: Character) { 
+   this.marvelService.updateCharacter(event).subscribe({
+      next: characte => {
+        this.alertService.showSuccess(`heroe ${characte.name} se encuentra actualizado.`)
+        this.router.navigateByUrl('/');
+      },
+      error: err => this.alertService.showError(err)
+    });
+   
   }
 
 

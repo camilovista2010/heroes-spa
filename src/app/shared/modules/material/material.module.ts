@@ -13,7 +13,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from '@angular/material/list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
 
 const componentsMaterial = [
   MatToolbarModule,
@@ -28,7 +30,10 @@ const componentsMaterial = [
   MatNativeDateModule,
   MatSelectModule,
   MatListModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatPaginatorModule,
+  MatTableModule,
+  MatSortModule
 ]
 
 @NgModule({
