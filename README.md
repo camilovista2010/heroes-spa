@@ -1,6 +1,6 @@
 # HeroesSpa
 
-Este proyecto fue creado con [Angular CLI](https://github.com/angular/angular-cli) versión 17.3.5 y se encuentra en desarrollo usando Angular con Angular Material. Puedes consultar el proyecto en la siguiente página web: [githubpage-heroes.com](https://camilovista2010.github.io/heroes-spa).
+Este proyecto fue creado con [Angular CLI](https://github.com/angular/angular-cli) versión 17.3.5 y se encuentra en desarrollo usando Angular con Angular Material. Puedes consultar el proyecto en la siguiente página web: [githubpage-heroes.com](https://camilovista2010.github.io/heroes-spa/dashboard).
 
 ## Servidor de desarrollo
 
