@@ -4,15 +4,15 @@ import { MarvelService } from './marvel.service';
 import { ApiResponse } from '@shared/interfaces/api-response';
 import { Character, ResponseCharacter } from '@shared/interfaces/character';
 import { environment } from 'src/environments/environment';
+import { of } from 'rxjs';
 
 describe('MarvelService', () => {
   let service: MarvelService;
-  let httpMock: HttpTestingController;
+  let httpMock: HttpTestingController; 
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [MarvelService]
     });
     service = TestBed.inject(MarvelService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -71,11 +71,14 @@ describe('MarvelService', () => {
         path: '',
         extension: ''
       }
-    };
+    }; 
+    service.dataStore = [updatedCharacter];
+    
     service.updateCharacter(updatedCharacter).subscribe(character => {
       expect(service.dataStore.find(x => x.id === character.id)).toEqual(character);
     });
  
-    service.dataStore = [updatedCharacter];
+    expect(service.dataStore.length).toBe(1);
+    
   });
 });

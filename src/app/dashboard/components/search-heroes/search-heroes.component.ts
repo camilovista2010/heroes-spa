@@ -27,7 +27,7 @@ export class SearchHeroesComponent implements OnInit , AfterViewInit {
     ) {}
 
   displayedColumns: string[] = ['avatar', 'name', 'description' ];
-  dataSource = new MatTableDataSource();
+  dataSource = new MatTableDataSource<Character>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -36,7 +36,7 @@ export class SearchHeroesComponent implements OnInit , AfterViewInit {
 
   ngOnInit(): void {
     this.heroes = this.marvelService.getCharacterLocal();
-    this.dataSource.data = [...this.heroes]; 
+    this.dataSource.data = this.heroes; 
   } 
 
   ngAfterViewInit() {

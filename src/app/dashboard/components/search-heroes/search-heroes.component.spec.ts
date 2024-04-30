@@ -1,59 +1,94 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogRef } from '@angular/material/dialog';
-import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule } from '@angular/forms';
 import { SearchHeroesComponent } from './search-heroes.component';
 import { MarvelService } from '@shared/services/marvel.service';
-import { SharedModule } from '@shared/shared.module';
-import { CapitalizeFirstPipe } from '@shared/pipe/capitalize-first.pipe'; 
+import { MatTableDataSource } from '@angular/material/table';
+import { RouterTestingModule } from '@angular/router/testing'; 
+import { Character } from '@shared/interfaces/character';
 import { Router } from '@angular/router';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+ 
 describe('SearchHeroesComponent', () => {
   let component: SearchHeroesComponent;
   let fixture: ComponentFixture<SearchHeroesComponent>;
-  let marvelServiceMock: any;
-  let dialogRefMock: any;
-  let router: Router;
+  let marvelService: MarvelService;
+  let dataSource: MatTableDataSource<Character>;
+  let mockHeroes: Character[] = [];
 
-  beforeEach(async () => { 
-    marvelServiceMock = {
-      getCharacterLocal: jasmine.createSpy().and.returnValue([{ id: 1, name: 'Spider-Man' }, { id: 2, name: 'Iron Man' }])
-    };
-  
+  beforeEach(async () => {
 
-    dialogRefMock = {
-      close: jasmine.createSpy('close') // Ensure this spy is correctly defined
-    };
+    mockHeroes = [{
+      name: 'Iron Man',
+      id: 0,
+      description: '',
+      thumbnail: {
+        path: '',
+        extension: ''
+      }
+    }, {
+      name: 'Captain America',
+      id: 0,
+      description: '',
+      thumbnail: {
+        path: '',
+        extension: ''
+      }
+    }];
+
+    const mockMarvelService = {
+      getCharacterLocal: jasmine.createSpy('getCharacterLocal').and.returnValue(mockHeroes),
+    }; 
 
     await TestBed.configureTestingModule({
-      imports: [SharedModule, FormsModule, RouterTestingModule, CapitalizeFirstPipe],
+      imports: [ RouterTestingModule , BrowserAnimationsModule, MatDialogModule], 
       providers: [
-        { provide: MarvelService, useValue: marvelServiceMock },
-        { provide: MatDialogRef, useValue: dialogRefMock }
+        { provide: MarvelService, useValue: mockMarvelService }
       ]
-    }).compileComponents();
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(SearchHeroesComponent);
     component = fixture.componentInstance;
-    router = TestBed.inject(Router);
-    fixture.detectChanges();
+    // marvelService = TestBed.inject(MarvelService);
+    dataSource = component.dataSource;
+    fixture.detectChanges(); 
+ 
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+
+  it('should get characters from MarvelService on ngOnInit', () => { 
+    component.ngOnInit(); 
+    expect(dataSource.data).toEqual(mockHeroes);
   });
 
-  it('should load characters on initialization', () => {
-    expect(marvelServiceMock.getCharacterLocal).toHaveBeenCalled();
-    expect(component.heroes.length).toBe(2);
+
+  it('should set paginator and sort for dataSource on ngAfterViewInit', () => {
+    const mockPaginator = jasmine.createSpyObj('MatPaginator', ['']);
+    const mockSort = jasmine.createSpyObj('MatSort', ['']);
+    fixture.componentInstance.paginator = mockPaginator;
+    fixture.componentInstance.sort = mockSort;
+  
+    component.ngAfterViewInit();
+  
+    expect(dataSource.paginator).toBe(mockPaginator);
+    expect(dataSource.sort).toBe(mockSort);
   });
 
-  it('should filter heroes based on search text', () => {
-    component.searchText = 'iron';
-    component.filterHeroes();
-    expect(component.filteredHeroes.length).toBe(1);
-    expect(component.filteredHeroes[0].name).toContain('Iron Man');
-  });
+ 
+ 
 
+  it('should close the dialog on onCloseClick', () => { 
+    const mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
+
+    fixture.componentInstance.dialogRef = mockDialogRef;
+  
+    component.onCloseClick();
+  
+    expect(mockDialogRef.close).toHaveBeenCalled();
+  });
+  
+  
+  
+  
   
 });

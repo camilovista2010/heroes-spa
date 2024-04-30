@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
 import { EditHeroeComponent } from './edit-heroe.component'; 
 import { ActivatedRoute, Router } from '@angular/router';
 import { MarvelService } from '@shared/services/marvel.service';
@@ -27,7 +27,7 @@ describe('EditHeroeComponent', () => {
 
   const mockMarvelService = {
     getCharacterLocal: jasmine.createSpy('getCharacterLocal').and.returnValue([{ id: 1, name: 'Spider-Man' }]),
-    updateCharacter: jasmine.createSpy('updateCharacter').and.returnValue({})
+    updateCharacter: jasmine.createSpy('updateCharacter').and.returnValue(of({})),
   };
 
   beforeEach(async () => {
@@ -82,6 +82,8 @@ describe('EditHeroeComponent', () => {
 
     expect(marvelService.updateCharacter).toHaveBeenCalledWith(character);
     expect(router.navigateByUrl).toHaveBeenCalledWith('/');
+
+    flush();
   }));
 });
 
